@@ -32,15 +32,18 @@ export const ProductController = {
       }
     },
   
-    updateProduct: async (req: Request, res: Response) => {
-      try {
-        const updatedProduct = await ProductService.updateProduct(Number(req.params.id), req.body);
-        res.json(updatedProduct);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        res.status(500).json({ message: errorMessage });
-      }
-    },
+updateProduct: async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const productData = req.body;
+
+    const updatedProduct = await ProductService.updateProduct(id, productData);
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+  }
+},
+
   
     deleteProduct: async (req: Request, res: Response) => {
       try {

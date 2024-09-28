@@ -19,9 +19,20 @@ export const ProductService = {
   },
 
   updateProduct: async (id: number, productData: Partial<Product>) => {
-    await productRepository.update(id, productData);
-    return await productRepository.findOneBy({ id });
+    // Primero encuentra el producto existente
+    const product = await productRepository.findOneBy({ id });
+  
+    if (!product) {
+      throw new Error('Product not found');
+    }
+  
+    // Actualiza los campos del producto con los datos recibidos
+    Object.assign(product, productData);
+  
+    // Guarda el producto actualizado en la base de datos
+    return await productRepository.save(product);
   },
+  
 
   deleteProduct: async (id: number) => {
     await productRepository.delete(id);
