@@ -1,5 +1,5 @@
-// src/entities/Product.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import 'reflect-metadata'; 
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -16,5 +16,8 @@ export class Product {
     price: number;
 
     @Column()
-    stock: number;
+    quantity: number;
+
+    @Column({ default: true })
+    isAvailable: boolean;
 }

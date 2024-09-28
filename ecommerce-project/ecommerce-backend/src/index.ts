@@ -1,21 +1,20 @@
-// src/index.ts
 import express from 'express';
-import { AppDataSource } from './data-source';
+import { AppDataSource } from './database';
+import ProductRoutes from './routes/ProductRoutes';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Middleware para manejar JSON
+// Middlewares
 app.use(express.json());
 
-// Conectar a la base de datos
-AppDataSource.initialize()
-  .then(() => {
-    console.log('Database connected successfully');
+// Rutas
+app.use('/api', ProductRoutes);
 
-    // Iniciar el servidor
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((error) => console.log('Error connecting to database:', error));
+// Iniciar Servidor
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Inicializar conexión a la base de datos
+AppDataSource.initialize();
