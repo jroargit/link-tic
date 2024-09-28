@@ -1,5 +1,5 @@
 // src/entities/Product.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity()
 export class Product {
