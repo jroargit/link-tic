@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Product } from './Product';
 
-@Entity()
+@Entity({ name: 'order_entity' }) // Cambia el nombre de la tabla
 export class Order {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -13,9 +13,8 @@ export class Order {
   totalPrice!: number;
 
   @Column({ default: 'PENDING' })
-  status!: string; // Puedes definir diferentes estados como 'PENDING', 'COMPLETED', etc.
+  status!: string;
 
-  // Relación con el producto
   @ManyToOne(() => Product, (product) => product.id)
   product!: Product;
 }

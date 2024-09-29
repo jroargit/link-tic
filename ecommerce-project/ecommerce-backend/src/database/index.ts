@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: ['src/entities/*.ts'],
-  synchronize: false,
+  synchronize: true,
 });
 
 AppDataSource.initialize()
