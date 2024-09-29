@@ -1,5 +1,13 @@
+import { AppDataSource } from '../src/database';
 import request from 'supertest';
 import { app } from '../src/index';
+
+beforeAll(async () => {
+  // Inicializar la conexión si aún no se ha hecho
+  if (!AppDataSource.isInitialized) {
+    await AppDataSource.initialize();
+  }
+}); 
 
 describe('Order Endpoints', () => {
   let orderId: number;
@@ -15,7 +23,7 @@ describe('Order Endpoints', () => {
           id: productId,
         },
       });
-    
+    console.log(response.body);
     expect(response.statusCode).toBe(201);
     expect(response.body).toHaveProperty('id');
     orderId = response.body.id;
@@ -33,6 +41,7 @@ describe('Order Endpoints', () => {
   it('should get an order by ID', async () => {
     const response = await request(app).get(`/api/orders/${orderId}`);
     
+    console.log(response.body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('id', orderId);
   });
@@ -46,6 +55,7 @@ describe('Order Endpoints', () => {
         status: 'COMPLETED',
       });
     
+    console.log(response.body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('status', 'COMPLETED');
   });
@@ -54,7 +64,15 @@ describe('Order Endpoints', () => {
   it('should delete an order', async () => {
     const response = await request(app).delete(`/api/orders/${orderId}`);
     
+    console.log(response.body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('message', 'Order deleted successfully');
   });
+});
+
+afterAll(async () => {
+  // Cerrar la conexión después de las pruebas
+  if (AppDataSource.isInitialized) {
+    await AppDataSource.destroy();
+  }
 });
