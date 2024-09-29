@@ -1,3 +1,5 @@
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import express from 'express';
 import { AppDataSource } from './database';
 import ProductRoutes from './routes/ProductRoutes';
@@ -26,5 +28,26 @@ AppDataSource.initialize()
     }
   })
   .catch((error) => console.log('Error initializing database', error));
+
+// Swagger
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'E-commerce API',
+      version: '1.0.0',
+      description: 'API Documentation for E-commerce Platform',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000/api',
+      },
+    ],
+  },
+  apis: ['./src/routes/*.ts'], // Rutas donde están los endpoints
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 export { app };
