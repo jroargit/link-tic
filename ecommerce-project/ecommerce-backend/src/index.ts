@@ -3,7 +3,7 @@ import { AppDataSource } from './database';
 import ProductRoutes from './routes/ProductRoutes';
 import OrderRoutes from './routes/OrderRoutes';
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
